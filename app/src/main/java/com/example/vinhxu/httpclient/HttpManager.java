@@ -29,7 +29,7 @@ public class HttpManager {
 
 
 
-            if (p.getMethod().equals("POST") || p.getMethod().equals("PUT")  ) {
+            if (p.getMethod().equals("POST") || p.getMethod().equals("PUT") || p.getMethod().equals("PATCH")) {
 
                 JSONObject json = new JSONObject(p.getParams());
                 String params = "" + json.toString();

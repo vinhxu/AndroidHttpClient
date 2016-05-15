@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     private static Button button_post;
     private static Button button_put;
     private static Button button_delete;
+    private static Button button_patch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         onClick_buttonPOST();
         onClick_buttonPUT();
         onClick_buttonDELETE();
+        onClick_buttonPATCH();
     }
 
     public void onClick_buttonGET() {
@@ -100,6 +102,26 @@ public class MainActivity extends AppCompatActivity {
                         RequestPackage p = new RequestPackage();
                         p.setMethod("DELETE");
                         p.setUri("https://fiery-torch-8721.firebaseio.com/put.json");
+
+                        HttpClientTask task = new HttpClientTask();
+                        task.execute(p);
+                    }
+                }
+        );
+    }
+
+    public void onClick_buttonPATCH() {
+        button_patch = (Button)findViewById(R.id.button_patch);
+        button_patch.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        RequestPackage p = new RequestPackage();
+                        p.setMethod("PATCH");
+                        p.setUri("https://fiery-torch-8721.firebaseio.com/put.json");
+
+                        p.setParam("hello", "world");
+                        p.setParam("vinhxu", "true");
 
                         HttpClientTask task = new HttpClientTask();
                         task.execute(p);
