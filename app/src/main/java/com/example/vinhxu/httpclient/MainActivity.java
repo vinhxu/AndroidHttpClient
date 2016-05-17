@@ -8,6 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,8 +47,10 @@ public class MainActivity extends AppCompatActivity {
                         RequestPackage p = new RequestPackage();
                         p.setMethod("GET");
                         //test GET request on http://httpbin.org/get
-                        p.setUri("http://httpbin.org/get");
-                        p.setParam("shallow", "true");
+                        //p.setUri("http://httpbin.org/get");
+                        //p.setParam("shallow", "true");
+                        p.setUri("https://fiery-torch-8721.firebaseio.com/.json");
+
 
                         HttpClientTask task = new HttpClientTask();
                         task.execute(p);
@@ -120,8 +126,8 @@ public class MainActivity extends AppCompatActivity {
                         p.setMethod("PATCH");
                         p.setUri("https://fiery-torch-8721.firebaseio.com/put.json");
 
-                        p.setParam("hello", "world");
-                        p.setParam("vinhxu", "true");
+                        p.setParam("human", "err");
+                        p.setParam("devine", "merciful");
 
                         HttpClientTask task = new HttpClientTask();
                         task.execute(p);
@@ -135,7 +141,38 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(RequestPackage... params) {
             String content =  HttpManager.getData(params[0]);
-            return content;
+            //content = "[" + content + "]";
+            try {
+
+                //JSONArray ar = new JSONArray(content);
+                //JSONObject obj = ar.getJSONObject(0);
+
+                JSONObject obj = new JSONObject(content);
+                JSONArray ar = obj.names();
+                return ar.getString(3);
+
+                /*
+                List<UserProfile> userProfileList = new ArrayList<>();
+                for (int i = 0; i < ar.length(); i++) {
+                    JSONObject obj = ar.getJSONObject(i);
+                    UserProfile newUser = new UserProfile();
+
+                    newUser.setStartWeight(obj.getDouble("startWeight"));
+                    newUser.setDaysToTarget(obj.getInt("targetDays"));
+                    newUser.setTargetWeight(obj.getDouble("targetWeight"));
+
+                    userProfileList.add(newUser);
+                }
+
+                JSONObject info = new JSONObject(obj.getString("vx"));
+                return info.getString("targetWeight");
+                */
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+
         }
 
         @Override
